@@ -39,7 +39,9 @@ class Dicom_Viewer_App(QMainWindow , ui):
             
         self.axialSlice = 117
         self.sagittalSlice = 117
-        self.coronalSlice = 117                     
+        self.coronalSlice = 117
+
+        self.pointsList = [[0,0],[0,0]]                     
         
         ########## Calling Functions ##########
         self.handle_buttons() ##### Connect Browse Button to Dicom Folder ##### 
@@ -287,6 +289,33 @@ class Dicom_Viewer_App(QMainWindow , ui):
 
         # Plot Oblique Slice
         self.oblique_axis.imshow(np.rot90(self.obliqueSlice.T), cmap="gray")
+
+        # Plot Line on Oblique and calulate the distance
+        self.oblique_figure.canvas.mpl_connect('button_press_event', self.onclickOblique)
+        # self.oblique_axis.plot([self.pointsList[0][0],self.pointsList[1][0]],[self.pointsList[0][1],self.pointsList[1][1]])
+        # self.oblique_figure.canvas.draw_idle()
+        # self.oblique_figure.canvas.flush_events()
+        # self.show() 
+    
+    def onclickOblique(self, event):
+        print("point clicked ", [event.xdata, event.ydata])
+        if len(self.pointsList) < 2:
+            self.pointsList.append([event.xdata, event.ydata])
+        else: 
+            self.pointsList = []
+            self.pointsList.append([event.xdata, event.ydata])
+            self.oblique_axis.cla()
+            self.oblique_axis.imshow(np.rot90(self.obliqueSlice.T), cmap="gray")
+            #self.createObliqueImage()
+
+
+        if len(self.pointsList) == 2:
+            self.oblique_axis.plot([self.pointsList[0][0],self.pointsList[1][0]],[self.pointsList[0][1],self.pointsList[1][1]])
+            self.oblique_figure.canvas.draw_idle()
+            self.oblique_figure.canvas.flush_events()
+            self.show() 
+        #self.obliqueLine_slope = ((event.ydata- self.startPoint[1])/(event.xdata- self.startPoint[0]))
+
 
     def lineFromPoints(self,P, Q):
         '''Get Line Equation from 2 Points'''
