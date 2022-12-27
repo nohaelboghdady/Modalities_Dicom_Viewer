@@ -66,7 +66,8 @@ class Dicom_Viewer_App(QMainWindow , ui):
           if i ==5:  
             slider.valueChanged.connect(self.Coronal_V_changed)
        
-
+        ##### Setting up Label for Line Length measurement #######
+        self.lineLength_label.setStyleSheet("border: 1px solid black;")
 
            
     def set_oblique_sliders(self):
@@ -314,6 +315,9 @@ class Dicom_Viewer_App(QMainWindow , ui):
             self.oblique_figure.canvas.draw_idle()
             self.oblique_figure.canvas.flush_events()
             self.show() 
+            lineLength = np.sqrt(pow(self.pointsList[1][0] -self.pointsList[0][0], 2) + pow(self.pointsList[1][1] - self.pointsList[0][1], 2))
+            self.lineLength_label.setText("Length of the line = " + str(lineLength))
+
         #self.obliqueLine_slope = ((event.ydata- self.startPoint[1])/(event.xdata- self.startPoint[0]))
 
 
