@@ -100,7 +100,7 @@ class Dicom_Viewer_App(QMainWindow , ui):
 
     def Sagittal_V_changed(self):
         '''Update Axial Slice with Respect to Sagittal Vertical Slider'''
-        self.axialSlice = -self.SagittalVerticalSlider.value()
+        self.axialSlice = 233 + self.SagittalVerticalSlider.value()
         self.viewing_planes()
 
     def Coronal_H_changed(self):
@@ -110,7 +110,7 @@ class Dicom_Viewer_App(QMainWindow , ui):
 
     def Coronal_V_changed(self):
         '''Update Axial Slice with Respect to Coronal Vertical Slider'''
-        self.axialSlice = -self.CoronalVerticalSlider.value()
+        self.axialSlice = 233 + self.CoronalVerticalSlider.value()
         self.viewing_planes()
 
     def Graphic_Scene(self,fig_width,fig_height,view,bool=True):
@@ -307,7 +307,6 @@ class Dicom_Viewer_App(QMainWindow , ui):
             self.pointsList.append([event.xdata, event.ydata])
             self.oblique_axis.cla()
             self.oblique_axis.imshow(np.rot90(self.obliqueSlice.T), cmap="gray")
-            #self.createObliqueImage()
 
 
         if len(self.pointsList) == 2:
@@ -318,7 +317,6 @@ class Dicom_Viewer_App(QMainWindow , ui):
             lineLength = np.sqrt(pow(self.pointsList[1][0] -self.pointsList[0][0], 2) + pow(self.pointsList[1][1] - self.pointsList[0][1], 2))
             self.lineLength_label.setText("Length of the line = " + str(lineLength))
 
-        #self.obliqueLine_slope = ((event.ydata- self.startPoint[1])/(event.xdata- self.startPoint[0]))
 
 
     def lineFromPoints(self,P, Q):
